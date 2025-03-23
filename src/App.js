@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import useLocalStorage from "./useLocalStorage";
 import ProductList from "./components/productList";
 import Cart from "./components/cart";
 import "./App.css";
 
 const App = () => {
-  const [cartItems, setCartItems] = useState([]);
-
-  // Load cart items from localStorage on initial render
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCart);
-  }, []);
-
-  // Save cart items to localStorage whenever cartItems changes
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+  // custom hook to manage cartItems in localStorage
+  const [cartItems, setCartItems] = useLocalStorage("cart", []);
 
   const addToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
@@ -48,10 +39,7 @@ const App = () => {
   };
 
   const calculateTotal = (cartItems) => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (

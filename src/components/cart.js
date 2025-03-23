@@ -1,6 +1,8 @@
 import React from "react";
 
 const Cart = ({ cartItems, removeFromCart, total }) => {
+  console.log("Cart items in Cart component:", cartItems);
+
   return (
     <div className="cart">
       <h1>Cart</h1>
